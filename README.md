@@ -1,16 +1,20 @@
-# 自嘲熊桌宠 (JokeBear-Deskpet)
+<div align="center">
 
-<p align="center">
-  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear.png" alt="自嘲熊桌宠" width="200"/>
-</p>
+# 🐻 自嘲熊桌宠 (JokeBear-Deskpet) 🐻
+
+<img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear.png" alt="自嘲熊桌宠" width="200"/>
+
+<p><strong>用一只会自嘲的小熊，温暖每个奋斗的日子</strong></p>
+
+</div>
 
 > **注意：** 本项目目前仍处于开发阶段，仅供测试使用。
 
-## 项目简介
+## 📝 项目简介
 
 自嘲熊桌宠是一个基于Electron开发的桌面伴侣应用，它会在您的桌面上呈现一个可爱的熊形象，陪伴您的工作与学习时光。无论是忙碌的工作日还是放松的休息时间，自嘲熊都会用幽默的自嘲金句和可爱的动画为您带来欢乐与放松。
 
-## 特色功能
+## ✨ 特色功能
 
 - **多样互动**: 点击、拖拽、喂食、抚摸等多种互动方式，每种互动都有不同的动画和反应
 - **自嘲金句**: 定期展示幽默的自嘲语录，缓解您的工作压力
@@ -19,14 +23,14 @@
 - **自定义设置**: 可调整大小、透明度、互动频率等多项设置
 - **系统托盘**: 最小化到系统托盘，随时可唤醒
 
-## 预览
+## 🖼️ 预览
 
-<p align="center">
-  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear1.png" alt="自嘲熊" width="200"/>
-  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear2.png" alt="UI界面" width="200"/>
-</p>
+<div align="center">
+  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear1.png" alt="自嘲熊" width="300"/>
+  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear2.png" alt="UI界面" width="300"/>
+</div>
 
-## 安装方法
+## 📥 安装方法
 
 ### 系统要求
 - Windows 10/11
@@ -52,7 +56,7 @@ npm install
 npm start
 ```
 
-## 使用指南
+## 📖 使用指南
 
 - **启动应用**: 双击应用图标或运行start.bat启动自嘲熊
 - **基本互动**: 
@@ -62,14 +66,14 @@ npm start
 - **主页面**: 通过系统托盘图标或右键菜单访问主页面，查看宠物状态、每日任务和互动选项
 - **设置页面**: 在主页面中访问设置，自定义宠物外观和行为
 
-## 开发技术
+## 🛠️ 开发技术
 
 - **框架**: Electron
 - **前端**: HTML, CSS, JavaScript
 - **UI设计**: 现代化UI界面，采用FontAwesome图标
 - **打包工具**: electron-builder
 
-## 项目结构
+## 📂 项目结构
 
 ```
 JokeBear-Deskpet/
@@ -86,7 +90,7 @@ JokeBear-Deskpet/
 └── package.json        # 项目配置
 ```
 
-## 参与贡献
+## 🤝 参与贡献
 
 我们欢迎所有形式的贡献，无论是新功能、文档改进还是错误修复：
 
@@ -96,7 +100,7 @@ JokeBear-Deskpet/
 4. 推送到分支 (`git push origin feature/amazing-feature`)
 5. 创建一个Pull Request
 
-## 项目规划
+## 🚀 项目规划
 
 - [ ] 增加更多互动动画
 - [ ] 支持用户自定义形象和语录
@@ -104,15 +108,18 @@ JokeBear-Deskpet/
 - [ ] 实现网络同步功能
 - [ ] 添加声音效果
 
-## 开源协议
+## 📄 开源协议
 
 本项目采用[MIT协议](LICENSE)开源。
 
-## 联系方式
+## 📮 联系方式
 
 - 项目维护者: [Chujie-cre](https://github.com/Chujie-cre)
 - 项目链接: [GitHub仓库](https://github.com/Chujie-cre/JokeBear-Deskpet)
 
 ---
 
-<p align="center">用一只会自嘲的小熊，温暖每个奋斗的日子</p>
+<div align="center">
+  <p>用一只会自嘲的小熊，温暖每个奋斗的日子</p>
+  <p>Copyright © 2024 Chujie-cre</p>
+</div>
