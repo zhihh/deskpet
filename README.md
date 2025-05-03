@@ -22,9 +22,8 @@
 ## 预览
 
 <p align="center">
-  <img src="assets/自嘲熊work.gif" alt="自嘲熊工作" width="200"/>
-  <img src="assets/自嘲熊run.gif" alt="自嘲熊奔跑" width="200"/>
-  <img src="assets/自嘲熊睡醒.gif" alt="自嘲熊睡醒" width="200"/>
+  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear1.png" alt="自嘲熊" width="200"/>
+  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear2.png" alt="UI界面" width="200"/>
 </p>
 
 ## 安装方法
