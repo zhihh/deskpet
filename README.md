@@ -121,5 +121,5 @@ JokeBear-Deskpet/
 
 <div align="center">
   <p>用一只会自嘲的小熊，温暖每个奋斗的日子</p>
-  <p>Copyright © 2024 Chujie-cre</p>
+  <p>Copyright © 2025 雏结</p>
 </div>
