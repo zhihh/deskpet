@@ -1,7 +1,7 @@
 # 自嘲熊桌宠 (JokeBear-Deskpet)
 
 <p align="center">
-  <img src="assets/pet.png" alt="自嘲熊桌宠" width="200"/>
+  <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear.png" alt="自嘲熊桌宠" width="200"/>
 </p>
 
 > **注意：** 本项目目前仍处于开发阶段，仅供测试使用。
