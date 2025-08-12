@@ -11,9 +11,6 @@ const themeToggle = document.getElementById('theme-toggle');
 
 // 宠物操作元素
 const petActionSelects = document.querySelectorAll('.pet-action-select');
-const deleteBtns = document.querySelectorAll('.delete-btn');
-const addPetCard = document.querySelector('.add-pet-card');
-const searchInput = document.querySelector('.search-input');
 
 // 窗口控制功能
 if (minimizeBtn) {
@@ -74,47 +71,6 @@ petActionSelects.forEach(select => {
   });
 });
 
-// 处理宠物删除
-deleteBtns.forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const petCard = e.target.closest('.pet-card');
-    const petName = petCard.querySelector('.pet-name').textContent;
-    
-    // 确认删除
-    if (confirm(`确定要删除宠物 ${petName} 吗？`)) {
-      // 发送删除请求到主进程
-      ipcRenderer.send('remove-pet', petName);
-      // 从UI中移除
-      petCard.remove();
-    }
-  });
-});
-
-// 处理添加新宠物
-if (addPetCard) {
-  addPetCard.addEventListener('click', () => {
-    // 打开添加宠物对话框
-    ipcRenderer.send('open-add-pet-dialog');
-  });
-}
-
-// 处理搜索
-if (searchInput) {
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
-    const petCards = document.querySelectorAll('.pet-card');
-    
-    petCards.forEach(card => {
-      const petName = card.querySelector('.pet-name').textContent.toLowerCase();
-      if (petName.includes(query)) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  });
-}
-
 // 侧边栏菜单项点击事件
 const menuItems = document.querySelectorAll('.menu-item');
 menuItems.forEach(item => {
@@ -169,8 +125,7 @@ document.addEventListener('mousedown', (e) => {
   if (!e.target.closest('button') && 
       !e.target.closest('select') && 
       !e.target.closest('input') &&
-      !e.target.closest('.pet-card') &&
-      !e.target.closest('.add-pet-card')) {
+      !e.target.closest('.pet-card')) {
     // 通知主进程允许拖动
     ipcRenderer.send('allow-window-drag');
   }

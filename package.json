@@ -21,8 +21,8 @@
     "electron-builder": "^24.9.1"
   },
   "build": {
-    "appId": "com.deskpet.app",
-    "productName": "小窝桌宠",
+    "appId": "com.ayako.bear.app",
+    "productName": "Ayako の 熊",
     "directories": {
       "output": "dist"
     },
@@ -35,13 +35,15 @@
       "target": [
         "nsis"
       ],
-      "icon": "assets/tray.png"
+      "icon": "assets/pet.png",
+      "requestedExecutionLevel": "asInvoker"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "uninstallDisplayName": "Ayako の 熊 - Birthday Edition"
     }
   }
 }

@@ -11,7 +11,7 @@ const clickThrough = document.getElementById('click-through');
 const notification = document.getElementById('notification');
 const sound = document.getElementById('sound');
 const volume = document.getElementById('volume');
-const skinItems = document.querySelectorAll('.skin-item:not(.locked)');
+const skinItems = document.querySelectorAll('.skin-item');
 const header = document.querySelector('.header');
 
 // 当前设置

@@ -27,30 +27,34 @@ let petData = {
 
 // 名言集合
 const quotes = [
-  "微笑是最好的名片。",
-  "每一天都是新的开始。",
-  "做你自己，因为别人都已经有人做了。",
-  "学习是一种态度，而不是能力。",
-  "简单的事情重复做，你也可以成为专家。",
-  "成长的过程总是有些痛苦的。",
-  "你的态度决定了你的高度。",
-  "一次只做一件事，把它做到最好。",
-  "不要等待机会，而要创造机会。",
-  "今天的付出，会在未来的某一天得到回报。"
+  "人 累了就休息一会吧 熊抱抱你",
+  "别人都是傻b，就我最聪明（读了一本哲学书之后）",
+  "人，为什么一定要往高处走呢，人可以往四处走",
+  "看起来5岁，脑袋也是5岁",
+  "人 你幸福的话熊会比你先落泪",
+  "人，快来给我讲个笑话",
+  "人 不是一定要和别人玩才能让自己开心 许多事自己做的话也是很酷的 一个人看电影一个人旅游一个人吃饭都是可以的 熊会一直陪着你 人可以和熊分享你的生活",
+  "尖叫！！，谁把熊吵醒了",
+  "熊许愿幸福，于是熊来到人的身边。",
+  "来财",
+  "人，过来一下，不干什么，就过来一下",
+  "人 熊不想让你难过 不要隐藏自己的泪水 它也是我们身体的一部分 想哭就可以哭出来 伪装自己并不能得到快乐 做自己才能 熊和人一样都会有好情绪和坏情绪 我们都需要发泄出来",
+  "我收购人生了...看来要买个西瓜吃。",
+  "人 不管发生什么都不要伤害自己 不仅爱你的人会很心疼 你的身体也会收到伤害 熊不想让你伤害自己 有什么事都可以跟熊说 熊会替你保密 但是不要在伤害自己了 熊会心疼"
 ];
 
 // 互动短语集合
 const interactions = [
-  "好痒啊，别挠我啦！",
-  "今天天气真好呢~",
-  "主人，我想吃零食！",
-  "要不要一起玩游戏？",
-  "听说今天有好运气哦！",
-  "主人工作辛苦了，要休息一下~",
-  "我们一起加油吧！",
-  "有什么可以帮到你的吗？",
-  "需要我提醒你什么事情吗？",
-  "偷偷告诉你一个秘密..."
+  "人，过来一下，不干什么，就过来一下",
+  "卧槽，谁把熊吵醒了",
+  "人 累了就休息一会吧 熊抱抱你",
+  "人，快来给我讲个笑话",
+  "来财",
+  "看起来5岁，脑袋也是5岁",
+  "别人都是傻b，就我最聪明（读了一本哲学书之后）",
+  "我收购人生了...看来要买个西瓜吃。",
+  "人，为什么一定要往高处走呢，人可以往四处走",
+  "熊许愿幸福，于是熊来到人的身边。"
 ];
 
 // 创建一个变量来追踪鼠标是否在UI元素上
@@ -212,7 +216,7 @@ function checkForLevelUp() {
 }
 
 // 显示消息框
-function showMessage(text) {
+function showMessage(text, type = 'normal') {
   const messagePopup = document.querySelector('#message-popup');
   const messageContent = document.querySelector('.message-content');
   
@@ -223,6 +227,10 @@ function showMessage(text) {
   
   // 设置消息内容
   messageContent.textContent = text;
+  
+  // 根据类型添加特殊样式
+  messagePopup.classList.remove('love', 'normal');
+  messagePopup.classList.add(type);
   
   // 直接从隐藏到显示，中间不需要过渡状态
   messagePopup.classList.remove('hidden');
@@ -292,12 +300,12 @@ function handleInteract() {
   interactionButtons.classList.add('hidden');
 }
 
-// 每日金句处理
+// 熊の語録处理
 function handleDailyQuote() {
   // 随机选择一条名言
   const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
   
-  showMessage(`今日金句：\n"${randomQuote}"`);
+  showMessage(`熊の語録：\n"${randomQuote}"`);
   
   // 增加已阅读金句数
   petData.quotesSeen++;
@@ -534,7 +542,7 @@ pet.addEventListener('dblclick', () => {
   }
   
   // 给予少量经验
-  addExp(2);
+  addExp(3); // 增加一点经验，因为主进程已经会处理好感度
 });
 
 // 特殊动画
@@ -552,10 +560,12 @@ function playSpecialAnimation() {
 }
 
 // 添加宠物行为（简单动画效果）
+let randomMovementTimer = null;
+
 function randomMovement() {
   // 如果正在拖动或显示互动按钮，不执行随机动作
   if (isDragging || !interactionButtons.classList.contains('hidden') || !messagePopup.classList.contains('hidden')) {
-    setTimeout(randomMovement, 2000);
+    randomMovementTimer = setTimeout(randomMovement, 2000);
     return;
   }
   
@@ -573,7 +583,15 @@ function randomMovement() {
   
   // 设置下一次随机动作的时间
   const nextActionTime = 5000 + Math.random() * 10000; // 5-15秒之间
-  setTimeout(randomMovement, nextActionTime);
+  randomMovementTimer = setTimeout(randomMovement, nextActionTime);
+}
+
+// 清理定时器的函数
+function cleanupTimers() {
+  if (randomMovementTimer) {
+    clearTimeout(randomMovementTimer);
+    randomMovementTimer = null;
+  }
 }
 
 // 监听来自主进程的消息
@@ -601,11 +619,77 @@ ipcRenderer.on('update-interaction', (event, ignoreMouseEvents) => {
   }
 });
 
+// 监听设置更新
+ipcRenderer.on('settings-updated', (event, settings) => {
+  console.log('设置已更新:', settings);
+  
+  // 如果皮肤设置发生变化，更新宠物外观
+  if (settings.skin) {
+    updatePetSkin(settings.skin);
+  }
+});
+
+// 更新宠物皮肤
+function updatePetSkin(skinName) {
+  const pet = document.getElementById('pet');
+  if (!pet) return;
+  
+  // 根据皮肤名称设置对应的图片
+  let imagePath = '';
+  switch (skinName) {
+    case 'デフォルトの熊':
+    case '默认':
+      imagePath = '../../assets/pet.png';
+      break;
+    case 'ランニングの熊':
+    case '奔跑':
+      imagePath = '../../assets/自嘲熊run.gif';
+      break;
+    case 'ワークの熊':
+    case '工作':
+      imagePath = '../../assets/自嘲熊work.gif';
+      break;
+    case 'おはようの熊':
+    case '睡醒':
+      imagePath = '../../assets/自嘲熊睡醒.gif';
+      break;
+    default:
+      imagePath = '../../assets/pet.png';
+      break;
+  }
+  
+  // 更新背景图片
+  pet.style.backgroundImage = `url('${imagePath}')`;
+  console.log(`宠物皮肤已更新为: ${skinName}, 图片路径: ${imagePath}`);
+}
+
 // 初始化宠物
 initPet();
 
+// 监听皮肤更新消息
+ipcRenderer.on('update-skin', (event, skinName) => {
+  console.log('收到皮肤更新消息:', skinName);
+  updatePetSkin(skinName);
+});
+
+// 监听好感度增加消息
+ipcRenderer.on('add-affection', (event, amount) => {
+  // 这里可以添加好感度处理逻辑
+  console.log('好感度增加:', amount);
+});
+
+// 监听爱心消息
+ipcRenderer.on('show-love-message', (event, message) => {
+  showMessage(message, 'love');
+});
+
 // 启动随机行为
 setTimeout(randomMovement, 5000);
+
+// 在窗口关闭时清理资源
+window.addEventListener('beforeunload', () => {
+  cleanupTimers();
+});
 
 function createPet(petData) {
   const petContainer = document.createElement('div');

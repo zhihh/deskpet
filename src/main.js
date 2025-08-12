@@ -42,7 +42,7 @@ function loadSettings() {
     sound: true,
     volume: 50,
     theme: 'light',
-    skin: '默认',
+    skin: 'デフォルトの熊',
     position: { x: null, y: null }
   };
 }
@@ -80,6 +80,11 @@ function applySettings() {
   // 通知渲染进程更新设置
   if (mainWindow.webContents) {
     mainWindow.webContents.send('settings-updated', userSettings);
+    
+    // 确保皮肤设置正确应用
+    if (userSettings.skin) {
+      mainWindow.webContents.send('update-skin', userSettings.skin);
+    }
   }
 }
 
@@ -111,9 +116,6 @@ function createWindow() {
 
   // 加载应用的index.html
   mainWindow.loadFile(path.join(__dirname, 'renderer/index.html'));
-  
-  // 开发环境下打开开发者工具
-  // mainWindow.webContents.openDevTools();
   
   // 设置窗口始终在最上层
   mainWindow.setAlwaysOnTop(true);
@@ -251,9 +253,6 @@ function createModernSettingsWindow() {
   // 加载新界面
   modernSettingsWindow.loadFile(path.join(__dirname, 'renderer/modern-settings.html'));
   
-  // 开发环境下打开开发者工具
-  // modernSettingsWindow.webContents.openDevTools();
-  
   modernSettingsWindow.on('closed', () => {
     modernSettingsWindow = null;
   });
@@ -297,9 +296,6 @@ function createHomeWindow() {
   // 加载主页界面
   homeWindow.loadFile(path.join(__dirname, 'renderer/home.html'));
   
-  // 开发环境下打开开发者工具
-  // homeWindow.webContents.openDevTools();
-  
   homeWindow.on('closed', () => {
     homeWindow = null;
   });
@@ -312,7 +308,7 @@ function createTray() {
   
   // 创建托盘
   tray = new Tray(iconPath);
-  tray.setToolTip('桌面宠物');
+  tray.setToolTip('Ayako の 熊♡');
   
   // 创建托盘菜单
   const contextMenu = Menu.buildFromTemplate([
@@ -320,12 +316,6 @@ function createTray() {
       label: '主页', 
       click: () => {
         createHomeWindow();
-      } 
-    },
-    { 
-      label: '宠物管理', 
-      click: () => {
-        createModernSettingsWindow();
       } 
     },
     { 
@@ -556,6 +546,11 @@ ipcMain.on('save-settings', (event, newSettings) => {
   userSettings = { ...userSettings, ...newSettings };
   saveSettings();
   event.reply('settings', userSettings);
+  
+  // 如果更改了皮肤，通知主窗口更新
+  if (newSettings.skin && mainWindow) {
+    mainWindow.webContents.send('update-skin', newSettings.skin);
+  }
 });
 
 // 监听重置设置请求
@@ -568,7 +563,7 @@ ipcMain.on('reset-settings', (event) => {
     sound: true,
     volume: 50,
     theme: 'light',
-    skin: '默认',
+    skin: 'デフォルトの熊',
     position: { x: null, y: null }
   };
   saveSettings();
@@ -609,8 +604,24 @@ ipcMain.on('show-context-menu', (event) => {
 
 // 处理双击事件
 ipcMain.on('pet-dblclick', () => {
-  // 可以在这里处理双击事件，比如播放声音
-  console.log('Pet was double clicked!');
+  console.log('熊被双击了！增加好感度♡');
+  
+  // 随机选择一条可爱的消息
+  const loveMessages = [
+    'くま很开心呢♡ 好感度+5!',
+    'Ayakoちゃん♡ 熊感到很幸福～ +5好感度',
+    'なでなで～ 熊的心都要融化了♡ +5好感度',
+    'くま最喜欢Ayakoちゃん了♪ 好感度+5',
+    'わぁい！熊好开心♡ 好感度+5だよ～'
+  ];
+  
+  const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+  
+  // 通知主窗口增加好感度和经验
+  if (mainWindow) {
+    mainWindow.webContents.send('add-affection', 5); // 增加5点好感度
+    mainWindow.webContents.send('show-love-message', randomMessage);
+  }
 });
 
 // 监听设置窗口拖动请求
@@ -659,13 +670,7 @@ ipcMain.on('window-close', (event) => {
   }
 });
 
-// 允许窗口拖动
-ipcMain.on('allow-window-drag', (event) => {
-  const win = BrowserWindow.fromWebContents(event.sender);
-  if (win) {
-    win.setMovable(true);
-  }
-});
+// 允许窗口拖动处理已移至CSS -webkit-app-region
 
 // 宠物数据处理
 ipcMain.on('get-pet-list', (event) => {
@@ -676,7 +681,7 @@ ipcMain.on('get-pet-list', (event) => {
       name: '自嘲熊',
       level: 5,
       mood: 'happy',
-      skin: '默认'
+      skin: 'デフォルトの熊'
     }
   ];
   event.reply('pet-list', pets);
@@ -686,18 +691,6 @@ ipcMain.on('pet-action', (event, data) => {
   // 处理宠物动作
   console.log(`宠物 ${data.name} 执行动作: ${data.action}`);
   // 在这里添加代码处理宠物动作
-});
-
-ipcMain.on('remove-pet', (event, petName) => {
-  // 处理宠物删除
-  console.log(`删除宠物: ${petName}`);
-  // 在这里添加代码处理宠物删除
-});
-
-ipcMain.on('open-add-pet-dialog', (event) => {
-  // 打开添加宠物对话框
-  console.log('打开添加宠物对话框');
-  // 在这里添加代码处理添加宠物
 });
 
 // 主题偏好处理
@@ -758,13 +751,13 @@ ipcMain.on('get-pet-status', (event) => {
 
 // 监听宠物互动事件
 ipcMain.on('pet-interaction', (event, action) => {
-  console.log(`宠物互动: ${action}`);
+  console.log(`Pet interaction: ${action}`);
   // 实际应用中这里会更新宠物状态并持久化
 });
 
 // 任务完成处理
 ipcMain.on('task-completed', (event, data) => {
-  console.log(`任务完成，获得 ${data.exp} 经验值`);
+  console.log(`Task completed, gained ${data.exp} EXP`);
   // 实际应用中这里会更新宠物经验并持久化
 });
 

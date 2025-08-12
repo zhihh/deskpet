@@ -34,7 +34,7 @@ const soundCheckbox = document.getElementById('sound');
 const volumeSlider = document.getElementById('volume');
 const resetBtn = document.getElementById('reset-btn');
 const saveBtn = document.getElementById('save-btn');
-const skinItems = document.querySelectorAll('.skin-item:not(.locked)');
+const skinItems = document.querySelectorAll('.skin-item');
 
 // 窗口控制功能
 if (minimizeBtn) {
@@ -261,19 +261,19 @@ function addInteractionLog(action) {
   let message = '';
   switch(action) {
     case 'feed':
-      message = '宠物正在享用美食，看起来很满足';
+      message = '熊正在享用おいしい食べ物，看起来很满足♡';
       break;
     case 'play':
-      message = '宠物和你一起玩耍，非常开心';
+      message = '熊和Ayakoちゃん一起あそび，とても開心だよ♪';
       break;
     case 'pet':
-      message = '宠物被你抚摸，感到很舒服';
+      message = '熊被Ayakoちゃん撫摸，感到すごく舒服♡';
       break;
     case 'sleep':
-      message = '宠物进入了睡眠状态，正在休息';
+      message = '熊進入了おやすみ状態，正在ゆっくり休息～';
       break;
     default:
-      message = '你与宠物进行了互动';
+      message = 'Ayakoちゃんと熊進行了とても楽しい互動♡';
   }
   
   // 创建日志项
@@ -354,6 +354,15 @@ skinItems.forEach(item => {
     skinItems.forEach(i => i.classList.remove('selected'));
     // 设置当前项为选中状态
     item.classList.add('selected');
+    
+    // 获取选中的皮肤名称
+    const skinName = item.querySelector('span').textContent;
+    
+    // 立即保存设置
+    const newSettings = {
+      skin: skinName
+    };
+    ipcRenderer.send('save-settings', newSettings);
   });
 });
 
@@ -378,19 +387,8 @@ menuItems.forEach(item => {
       if (sectionId === 'settings-section') {
         loadSettings();
       }
-      
-      // 若切换到宠物管理页面，加载宠物列表
-      if (sectionId === 'pets-section') {
-        ipcRenderer.send('get-pet-list');
-      }
     }
   });
-});
-
-// 监听宠物列表更新
-ipcRenderer.on('pet-list', (event, pets) => {
-  console.log('获取到宠物列表:', pets);
-  // 这里可以根据获取到的宠物列表更新UI
 });
 
 // 完成任务功能
@@ -408,8 +406,9 @@ taskItems.forEach(item => {
         
         // 获取任务奖励
         const rewardText = item.querySelector('.task-reward').textContent;
-        const expMatch = rewardText.match(/\+(\d+)\s+经验/);
-        if (expMatch && expMatch[1]) {
+        const expRegex = /\+(\d+)\s+经验/;
+        const expMatch = expRegex.exec(rewardText);
+        if (expMatch?.[1]) {
           const expGained = parseInt(expMatch[1]);
           // 通知主进程任务完成，获得经验
           ipcRenderer.send('task-completed', { exp: expGained });
@@ -421,21 +420,8 @@ taskItems.forEach(item => {
   }
 });
 
-// 确保应用可拖动
-document.addEventListener('mousedown', (e) => {
-  // 排除按钮和交互元素
-  if (!e.target.closest('button') && 
-      !e.target.closest('select') && 
-      !e.target.closest('input') &&
-      !e.target.closest('.interaction-btn') &&
-      !e.target.closest('.task-item') &&
-      !e.target.closest('.log-item') &&
-      !e.target.closest('.refresh-btn') &&
-      !e.target.closest('.skin-item')) {
-    // 通知主进程允许拖动
-    ipcRenderer.send('allow-window-drag');
-  }
-});
+// 确保应用可拖动 - 使用CSS -webkit-app-region 处理
+// 不需要额外的mousedown事件处理
 
 // 接收主题偏好
 ipcRenderer.on('theme-preference', (event, darkMode) => {
