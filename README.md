@@ -1,5 +1,10 @@
 <div align="center">
 
+# TODO:
+
+- [ ] 在主页中的关于页面中的链接放上 happybirthday 项目部署网页的链接。
+- [ ] 上传自嘲熊皮肤的功能、上传自嘲熊语录的功能
+
 # 🐻 自嘲熊桌宠 (JokeBear-Deskpet) 🐻
 
 <img src="http://find.kingdomofown.cn/wp-content/uploads/2025/05/bear.png" alt="自嘲熊桌宠" width="200"/>
